@@ -1,48 +1,67 @@
-# Shorthand Border [![Build Status][ci-img]][ci]
+# Border Shorthand <a href="https://github.com/postcss/postcss"><img src="https://postcss.github.io/postcss/logo.svg" alt="PostCSS Logo" width="90" height="90" align="right"></a>
 
-<img align="right" width="135" height="95" src="http://postcss.github.io/postcss/logo-leftp.png" title="Philosopher’s stone, logo of PostCSS">
+[![NPM Version][npm-img]][npm-url]
+[![Build Status][cli-img]][cli-url]
+[![Licensing][lic-image]][lic-url]
+[![Changelog][log-image]][log-url]
+[![Gitter Chat][git-image]][git-url]
 
-[Shorthand Border] is a [PostCSS] plugin that lets you to creatively define multiple edges on border properties in CSS.
+[Border Shorthand] lets you omit sides within `border-` properties in CSS. It also lets you fully define individual values on the `border` property using dividers (`/`).
 
 ```css
 /* before */
 
-.foo {
-    border: 1px 2px #343434;
+.example-1 {
+	border-color: blue blue *;
 }
 
-.bar {
-    border-width: * 1px;
+.example-2 {
+    border-width: 1px *;
 }
 
-.qux {
-    border-color: #ee9933 . #996633;
+.example-3 {
+    border: 1px 2px / solid / red orange;
 }
 
 /* after */
 
-.foo {
+.example-1 {
+    border-top-color: blue;
+    border-right-color: blue;
+    border-left-color: blue;
+}
+
+.example-2 {
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.example-3 {
     border-width: 1px 2px;
-    border-color: #343434;
-}
-
-.bar {
-    border-left-width: 1px;
-    border-right-width: 1px;
-}
-
-.qux {
-    border-color: #ee9933 #ee9933 #996633;
+    border-style: solid;
+    border-color: red orange;
 }
 ```
 
-Border edges follow the [1-to-4 syntax] to become `border-top-`, `border-right-`, `bottom-bottom-`, and `border-left-` properties. An asterisk (`*`) indicates that the edge is to be skipped, while a dot (`.`) indicates that a previous edge should be repeated. For more advanced usages, two dots reference the edge before last, while three dots represents the first edge.
+## Options
+
+#### `prefix`
+
+Type: `String`  
+Default: `""`
+
+Adds an optional prefix to the `border` property (e.g. `"x"` for `-x-border`). Wrapping dashes (`-`) are automatically applied.
+
+#### `skip`
+
+Type: `String`  
+Default: `"*"`
+
+Specifies the skip token used to disregard a value.
 
 ## Usage
 
-Follow these steps to use [Shorthand Border].
-
-Add [Shorthand Border] to your build tool:
+Add [Border Shorthand] to your build tool:
 
 ```bash
 npm install postcss-short-border --save-dev
@@ -51,7 +70,7 @@ npm install postcss-short-border --save-dev
 #### Node
 
 ```js
-require('postcss-short-border')({ /* options */ }).process(YOUR_CSS);
+require('postcss-short-border').process(YOUR_CSS, { /* options */ });
 ```
 
 #### PostCSS
@@ -62,12 +81,12 @@ Add [PostCSS] to your build tool:
 npm install postcss --save-dev
 ```
 
-Load [Shorthand Border] as a PostCSS plugin:
+Load [Border Shorthand] as a PostCSS plugin:
 
 ```js
 postcss([
-    require('postcss-short-border')({ /* options */ })
-]);
+	require('postcss-short-border')({ /* options */ })
+]).process(YOUR_CSS, /* options */);
 ```
 
 #### Gulp
@@ -78,19 +97,19 @@ Add [Gulp PostCSS] to your build tool:
 npm install gulp-postcss --save-dev
 ```
 
-Enable [Shorthand Border] within your Gulpfile:
+Enable [Border Shorthand] within your Gulpfile:
 
 ```js
 var postcss = require('gulp-postcss');
 
 gulp.task('css', function () {
-    return gulp.src('./css/src/*.css').pipe(
-        postcss([
-            require('postcss-short-border')({ /* options */ })
-        ])
-    ).pipe(
-        gulp.dest('./css')
-    );
+	return gulp.src('./src/*.css').pipe(
+		postcss([
+			require('postcss-short-border')({ /* options */ })
+		])
+	).pipe(
+		gulp.dest('.')
+	);
 });
 ```
 
@@ -102,38 +121,38 @@ Add [Grunt PostCSS] to your build tool:
 npm install grunt-postcss --save-dev
 ```
 
-Enable [Shorthand Border] within your Gruntfile:
+Enable [Border Shorthand] within your Gruntfile:
 
 ```js
 grunt.loadNpmTasks('grunt-postcss');
 
 grunt.initConfig({
-    postcss: {
-        options: {
-            processors: [
-                require('postcss-short-border')({ /* options */ })
-            ]
-        },
-        dist: {
-            src: 'css/*.css'
-        }
-    }
+	postcss: {
+		options: {
+			use: [
+				require('postcss-short-border')({ /* options */ })
+			]
+		},
+		dist: {
+			src: '*.css'
+		}
+	}
 });
 ```
 
-## Options
+[npm-url]: https://www.npmjs.com/package/postcss-short-border
+[npm-img]: https://img.shields.io/npm/v/postcss-short-border.svg
+[cli-url]: https://travis-ci.org/jonathantneal/postcss-short-border
+[cli-img]: https://img.shields.io/travis/jonathantneal/postcss-short-border.svg
+[lic-url]: LICENSE.md
+[lic-image]: https://img.shields.io/npm/l/postcss-short-border.svg
+[log-url]: CHANGELOG.md
+[log-image]: https://img.shields.io/badge/changelog-md-blue.svg
+[git-url]: https://gitter.im/postcss/postcss
+[git-image]: https://img.shields.io/badge/chat-gitter-blue.svg
 
-#### `prefix`
-
-Type: `String`  
-Default: `null`
-
-Specifies a prefix to be surrounded by dashes before the declaration (e.g. `-x-border`).
-
-[1-to-4 syntax]: https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties#Tricky_edge_cases
-[ci]: https://travis-ci.org/jonathantneal/postcss-short-border
-[ci-img]: https://travis-ci.org/jonathantneal/postcss-short-border.svg
+[Border Shorthand]: https://github.com/jonathantneal/postcss-short-border
+[PostCSS]: https://github.com/postcss/postcss
 [Gulp PostCSS]: https://github.com/postcss/gulp-postcss
 [Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
-[PostCSS]: https://github.com/postcss/postcss
-[Shorthand Border]: https://github.com/jonathantneal/postcss-short-border
+[1-to-4 syntax]: https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties#Tricky_edge_cases

@@ -1,0 +1,71 @@
+.example-normal-1 {
+	-x-border-width: 1px 2px;
+}
+
+.example-normal-2 {
+	-x-border: 1px solid rebeccapurple;
+}
+
+.example-width-2-1 {
+	-x-border-width: * 1px;
+}
+
+.example-width-2-2 {
+	-x-border-width: 1px *;
+}
+
+.example-width-3-1 {
+	-x-border-width: * 1px 2px;
+}
+
+.example-width-3-2 {
+	-x-border-width: 1px * 2px;
+}
+
+.example-width-3-3 {
+	-x-border-width: 1px 2px *;
+}
+
+.example-width-4-1 {
+	-x-border-width: * 1px 2px 3px;
+}
+
+.example-width-4-2 {
+	-x-border-width: 1px * 2px 3px;
+}
+
+.example-width-4-3 {
+	-x-border-width: 1px 2px * 3px;
+}
+
+.example-width-4-4 {
+	-x-border-width: 1px 2px 3px *;
+}
+
+.example-style-2-1 {
+	-x-border-style: * solid;
+}
+
+.example-style-2-2 {
+	-x-border-style: solid *;
+}
+
+.example-color-2-1 {
+	-x-border-style: * rebeccapurple;
+}
+
+.example-color-2-1 {
+	-x-border-style: rebeccapurple *;
+}
+
+.example-1 {
+	-x-border: * * 1px / solid / rebeccapurple;
+}
+
+.example-2 {
+	-x-border: 1px / * * solid / rebeccapurple;
+}
+
+.example-3 {
+	-x-border: 1px / solid / * * rebeccapurple;
+}
