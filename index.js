@@ -10,10 +10,10 @@ const sides = ['top', 'right', 'bottom', 'left'];
 // plugin
 module.exports = postcss.plugin('postcss-short-border', ({
 	prefix = '',
-	skip   = '*'
-}) => {
+	skip = '*'
+} = {}) => {
 	// dashed prefix
-	const dashedPrefix = prefix ? '-' + prefix + '-' : '';
+	const dashedPrefix = prefix ? `-${ prefix }-` : '';
 
 	// property pattern
 	const propertyMatch = new RegExp(`^${ dashedPrefix }(border(?:-(color|style|width))?)$`);
@@ -89,4 +89,11 @@ module.exports = postcss.plugin('postcss-short-border', ({
 		css.walkDecls(propertyMatch, processMatchedDeclaration);
 	};
 });
+
+// override plugin#process
+module.exports.process = function (cssString, pluginOptions, processOptions) {
+	return postcss([
+		0 in arguments ? module.exports(pluginOptions) : module.exports()
+	]).process(cssString, processOptions);
+};
 
