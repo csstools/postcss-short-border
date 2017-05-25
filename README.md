@@ -1,10 +1,9 @@
-# Border Shorthand <a href="https://github.com/postcss/postcss"><img src="https://postcss.github.io/postcss/logo.svg" alt="PostCSS Logo" width="90" height="90" align="right"></a>
+# Border Shorthand [<img src="https://postcss.github.io/postcss/logo.svg" alt="PostCSS Logo" width="90" height="90" align="right">][postcss]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
-[![Licensing][lic-image]][lic-url]
-[![Changelog][log-image]][log-url]
-[![Gitter Chat][git-image]][git-url]
+[![Windows Build Status][win-img]][win-url]
+[![Gitter Chat][git-img]][git-url]
 
 [Border Shorthand] lets you omit sides within `border-` properties in CSS. It also lets you fully define individual values on the `border` property using dividers (`/`).
 
@@ -12,34 +11,34 @@
 /* before */
 
 .example-1 {
-	border-color: blue blue *;
+  border-color: blue blue *;
 }
 
 .example-2 {
-    border-width: 1px *;
+  border-width: 1px *;
 }
 
 .example-3 {
-    border: 1px 2px / solid / red orange;
+  border: 1px 2px / solid / red orange;
 }
 
 /* after */
 
 .example-1 {
-    border-top-color: blue;
-    border-right-color: blue;
-    border-left-color: blue;
+  border-top-color: blue;
+  border-right-color: blue;
+  border-left-color: blue;
 }
 
 .example-2 {
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
 }
 
 .example-3 {
-    border-width: 1px 2px;
-    border-style: solid;
-    border-color: red orange;
+  border-width: 1px 2px;
+  border-style: solid;
+  border-color: red orange;
 }
 ```
 
@@ -85,7 +84,7 @@ Load [Border Shorthand] as a PostCSS plugin:
 
 ```js
 postcss([
-	require('postcss-short-border')({ /* options */ })
+  require('postcss-short-border')({ /* options */ })
 ]).process(YOUR_CSS, /* options */);
 ```
 
@@ -103,13 +102,13 @@ Enable [Border Shorthand] within your Gulpfile:
 var postcss = require('gulp-postcss');
 
 gulp.task('css', function () {
-	return gulp.src('./src/*.css').pipe(
-		postcss([
-			require('postcss-short-border')({ /* options */ })
-		])
-	).pipe(
-		gulp.dest('.')
-	);
+  return gulp.src('./src/*.css').pipe(
+    postcss([
+      require('postcss-short-border')({ /* options */ })
+    ])
+  ).pipe(
+    gulp.dest('.')
+  );
 });
 ```
 
@@ -127,16 +126,16 @@ Enable [Border Shorthand] within your Gruntfile:
 grunt.loadNpmTasks('grunt-postcss');
 
 grunt.initConfig({
-	postcss: {
-		options: {
-			use: [
-				require('postcss-short-border')({ /* options */ })
-			]
-		},
-		dist: {
-			src: '*.css'
-		}
-	}
+  postcss: {
+    options: {
+      use: [
+        require('postcss-short-border')({ /* options */ })
+      ]
+    },
+    dist: {
+      src: '*.css'
+    }
+  }
 });
 ```
 
@@ -144,12 +143,10 @@ grunt.initConfig({
 [npm-img]: https://img.shields.io/npm/v/postcss-short-border.svg
 [cli-url]: https://travis-ci.org/jonathantneal/postcss-short-border
 [cli-img]: https://img.shields.io/travis/jonathantneal/postcss-short-border.svg
-[lic-url]: LICENSE.md
-[lic-image]: https://img.shields.io/npm/l/postcss-short-border.svg
-[log-url]: CHANGELOG.md
-[log-image]: https://img.shields.io/badge/changelog-md-blue.svg
+[win-url]: https://ci.appveyor.com/project/jonathantneal/postcss-short-border
+[win-img]: https://img.shields.io/appveyor/ci/jonathantneal/postcss-short-border.svg
 [git-url]: https://gitter.im/postcss/postcss
-[git-image]: https://img.shields.io/badge/chat-gitter-blue.svg
+[  git-img]: https://img.shields.io/badge/chat-gitter-blue.svg
 
 [Border Shorthand]: https://github.com/jonathantneal/postcss-short-border
 [PostCSS]: https://github.com/postcss/postcss
