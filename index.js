@@ -1,26 +1,15 @@
-// tooling
-const postcss = require('postcss');
+import postcss from 'postcss';
 
-// border properties
-const properties = ['width', 'style', 'color'];
-
-// border sides
-const sides = ['top', 'right', 'bottom', 'left'];
-
-// plugin
-module.exports = postcss.plugin('postcss-short-border', (opts) => {
+export default postcss.plugin('postcss-short-border', opts => {
 	// options
-	const prefix = opts && 'prefix' in opts ? opts.prefix : '';
-	const skip = opts && 'skip' in opts ? opts.skip : '*';
-
-	// dashed prefix
-	const dashedPrefix = prefix ? `-${ prefix }-` : '';
+	const prefix = 'prefix' in Object(opts) ? `-${opts.prefix}-` : '';
+	const skip = 'skip' in Object(opts) ? String(opts.skip) : '*';
 
 	// property pattern
-	const propertyMatch = new RegExp(`^${ dashedPrefix }(border(?:-(color|style|width))?)$`);
+	const propertyMatch = new RegExp(`^${prefix}(border(?:-(color|style|width))?)$`);
 
 	// process a matched declaration
-	const processMatchedDeclaration = (decl) => {
+	const processMatchedDeclaration = decl => {
 		// unprefixed property
 		const property = decl.prop.match(propertyMatch)[1];
 
@@ -75,7 +64,7 @@ module.exports = postcss.plugin('postcss-short-border', (opts) => {
 			postcss.list.split(decl.value, '/').forEach((values, index) => {
 				// process the new declaration for the border inner-property
 				processMatchedDeclaration(decl.cloneBefore({
-					prop: `${ dashedPrefix }border-${ properties[index] }`,
+					prop: `${prefix}border-${properties[index]}`,
 					value: values
 				}));
 			});
@@ -85,8 +74,14 @@ module.exports = postcss.plugin('postcss-short-border', (opts) => {
 		}
 	};
 
-	return (css) => {
+	return root => {
 		// walk each matching declaration
-		css.walkDecls(propertyMatch, processMatchedDeclaration);
+		root.walkDecls(propertyMatch, processMatchedDeclaration);
 	};
 });
+
+// border properties
+const properties = ['width', 'style', 'color'];
+
+// border sides
+const sides = ['top', 'right', 'bottom', 'left'];

@@ -1,15 +1,14 @@
-# Border Shorthand [<img src="https://postcss.github.io/postcss/logo.svg" alt="PostCSS Logo" width="90" height="90" align="right">][postcss]
+# PostCSS Short Border [<img src="https://postcss.github.io/postcss/logo.svg" alt="PostCSS" width="90" height="90" align="right">][postcss]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
-[![Windows Build Status][win-img]][win-url]
-[![Gitter Chat][git-img]][git-url]
+[![Support Chat][git-img]][git-url]
 
-[Border Shorthand] lets you omit sides within `border-` properties in CSS. It also lets you fully define individual values on the `border` property using dividers (`/`).
+[PostCSS Short Border] lets you omit sides within `border-` properties in CSS.
+It also lets you fully define individual values on the `border` property using
+dividers (`/`).
 
-```css
-/* before */
-
+```pcss
 .example-1 {
   border-color: blue blue *;
 }
@@ -22,7 +21,7 @@
   border: 1px 2px / solid / red orange;
 }
 
-/* after */
+/* becomes */
 
 .example-1 {
   border-top-color: blue;
@@ -42,114 +41,93 @@
 }
 ```
 
-## Options
-
-#### `prefix`
-
-Type: `String`  
-Default: `""`
-
-Adds an optional prefix to the `border` property (e.g. `"x"` for `-x-border`). Wrapping dashes (`-`) are automatically applied.
-
-#### `skip`
-
-Type: `String`  
-Default: `"*"`
-
-Specifies the skip token used to disregard a value.
-
 ## Usage
 
-Add [Border Shorthand] to your build tool:
+Add [PostCSS Short Border] to your project:
 
 ```bash
 npm install postcss-short-border --save-dev
 ```
 
-#### Node
+Use [PostCSS Short Border] to process your CSS:
 
 ```js
-require('postcss-short-border').process(YOUR_CSS, { /* options */ });
+const postcssShortBorder = require('postcss-short-border');
+
+postcssShortBorder.process(YOUR_CSS /*, processOptions, pluginOptions */);
 ```
 
-#### PostCSS
-
-Add [PostCSS] to your build tool:
-
-```bash
-npm install postcss --save-dev
-```
-
-Load [Border Shorthand] as a PostCSS plugin:
+Or use it as a [PostCSS] plugin:
 
 ```js
+const postcss = require('postcss');
+const postcssShortBorder = require('postcss-short-border');
+
 postcss([
-  require('postcss-short-border')({ /* options */ })
-]).process(YOUR_CSS, /* options */);
+  postcssShortBorder(/* pluginOptions */)
+]).process(YOUR_CSS /*, processOptions */);
 ```
 
-#### Gulp
+[PostCSS Short Border] runs in all Node environments, with special instructions for:
 
-Add [Gulp PostCSS] to your build tool:
+| [Node](INSTALL.md#node) | [PostCSS CLI](INSTALL.md#postcss-cli) | [Webpack](INSTALL.md#webpack) | [Create React App](INSTALL.md#create-react-app) | [Gulp](INSTALL.md#gulp) | [Grunt](INSTALL.md#grunt) |
+| --- | --- | --- | --- | --- | --- |
 
-```bash
-npm install gulp-postcss --save-dev
-```
+## Options
 
-Enable [Border Shorthand] within your Gulpfile:
+#### prefix
+
+The `prefix` option defines a prefix required by properties being transformed.
+Wrapping dashes are automatically applied, so that `x` would transform
+`-x-border`.
 
 ```js
-var postcss = require('gulp-postcss');
-
-gulp.task('css', function () {
-  return gulp.src('./src/*.css').pipe(
-    postcss([
-      require('postcss-short-border')({ /* options */ })
-    ])
-  ).pipe(
-    gulp.dest('.')
-  );
-});
+postcssShortBorder({ prefix: 'x' });
 ```
 
-#### Grunt
+```pcss
+.example-1 {
+  -x-border-color: blue blue *;
+}
 
-Add [Grunt PostCSS] to your build tool:
+/* becomes */
 
-```bash
-npm install grunt-postcss --save-dev
+.example-1 {
+  border-top-color: blue;
+  border-right-color: blue;
+  border-left-color: blue;
+}
 ```
 
-Enable [Border Shorthand] within your Gruntfile:
+#### skip
+
+The `skip` option defines the skip token used to ignore portions of the
+shorthand.
 
 ```js
-grunt.loadNpmTasks('grunt-postcss');
-
-grunt.initConfig({
-  postcss: {
-    options: {
-      use: [
-        require('postcss-short-border')({ /* options */ })
-      ]
-    },
-    dist: {
-      src: '*.css'
-    }
-  }
-});
+postcssShortBorder({ skip: '-' });
 ```
 
-[npm-url]: https://www.npmjs.com/package/postcss-short-border
-[npm-img]: https://img.shields.io/npm/v/postcss-short-border.svg
-[cli-url]: https://travis-ci.org/jonathantneal/postcss-short-border
+```pcss
+.example-1 {
+  border-color: blue blue -;
+}
+
+/* becomes */
+
+.example-1 {
+  border-top-color: blue;
+  border-right-color: blue;
+  border-left-color: blue;
+}
+```
+
 [cli-img]: https://img.shields.io/travis/jonathantneal/postcss-short-border.svg
-[win-url]: https://ci.appveyor.com/project/jonathantneal/postcss-short-border
-[win-img]: https://img.shields.io/appveyor/ci/jonathantneal/postcss-short-border.svg
+[cli-url]: https://travis-ci.org/jonathantneal/postcss-short-border
+[git-img]: https://img.shields.io/badge/support-chat-blue.svg
 [git-url]: https://gitter.im/postcss/postcss
-[  git-img]: https://img.shields.io/badge/chat-gitter-blue.svg
+[npm-img]: https://img.shields.io/npm/v/postcss-short-border.svg
+[npm-url]: https://www.npmjs.com/package/postcss-short-border
 
-[Border Shorthand]: https://github.com/jonathantneal/postcss-short-border
 [PostCSS]: https://github.com/postcss/postcss
-[Gulp PostCSS]: https://github.com/postcss/gulp-postcss
-[Grunt PostCSS]: https://github.com/nDmitry/grunt-postcss
-[1-to-4 syntax]: https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties#Tricky_edge_cases
+[PostCSS Short Border]: https://github.com/jonathantneal/postcss-short-border

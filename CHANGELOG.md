@@ -1,4 +1,8 @@
-# Changes to Border Shorthand
+# Changes to PostCSS Short Border
+
+### 4.0.0 (October 10, 2018)
+
+- Added: Support for PostCSS 7, Node 6
 
 ### 3.0.0 (May 25, 2017)
 
